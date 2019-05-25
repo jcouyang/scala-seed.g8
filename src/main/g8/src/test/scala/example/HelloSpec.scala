@@ -1,9 +1,13 @@
 package example
 
-import org.scalatest._
+import org.specs2.mutable.Specification
+import cats.effect._
 
-class HelloSpec extends FlatSpec with Matchers {
-  "The Hello object" should "say hello" in {
-    Hello.greeting shouldEqual "hello"
+class HelloSpec extends Specification {
+  "it should run" >> {
+    object interp extends HasConfig {
+      override def config: IO[Config] = IO(Config("Test User"))
+    }
+    Greeting.provide(interp).unsafeRunSync() must_== (())
   }
 }
