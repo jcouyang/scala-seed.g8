@@ -17,11 +17,11 @@ object Greeting {
   def provide =
     for {
       config <- read(_.config)
-      _ <- Kleisli.liftF(IO(logger.info(s"Hello ${config.name}")))
+      _ <- Kleisli.liftF(IO(logger.info("Hello " + config.name)))
     } yield ()
 }
 
 case class Config(name: String)
 trait HasConfig {
-  def config: IO[Config] = IO(Config("Jichao"))
+  def config: IO[Config] = IO(Config("$name$"))
 }
